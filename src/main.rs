@@ -3,9 +3,9 @@ use candle_nn::VarBuilder;
 use image::{DynamicImage, ImageBuffer, imageops, Luma, RgbImage};
 use imageops::FilterType;
 
-use crate::anime_segmentation::AnimeSegmentation;
+use crate::model::Model;
 
-mod anime_segmentation;
+mod model;
 mod isnet_dis;
 
 type Gray32FImage = ImageBuffer<Luma<f32>, Vec<f32>>;
@@ -59,7 +59,7 @@ fn task(tensor: Tensor, crop: Crop) -> Result<Tensor> {
     let vb =
         unsafe { VarBuilder::from_mmaped_safetensors(&["isnetis.safetensors"], dtype, &device) }?;
 
-    let model = AnimeSegmentation::load(vb)?;
+    let model = Model::load(vb)?;
 
     let tensor = model.forward(&tensor.to_device(&device)?)?;
 

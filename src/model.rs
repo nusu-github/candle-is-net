@@ -3,14 +3,14 @@ use candle_nn::{Activation, Module, VarBuilder};
 
 use crate::isnet_dis::{ISNetDIS, ISNetGTEncoder};
 
-pub struct AnimeSegmentation {
+pub struct Model {
     net: ISNetDIS,
 
     #[allow(dead_code)]
     gt_encoder: ISNetGTEncoder,
 }
 
-impl AnimeSegmentation {
+impl Model {
     pub fn load(vb: VarBuilder) -> Result<Self> {
         Ok(Self {
             net: ISNetDIS::load(vb.pp("net"), 3, 1)?,
